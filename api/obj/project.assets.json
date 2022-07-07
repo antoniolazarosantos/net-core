@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\cursos\\dotnet-6\\api\\api.csproj",
+      "projectUniqueName": "C:\\cursos\\dotnet-6\\net-core\\api\\api.csproj",
       "projectName": "api",
-      "projectPath": "C:\\cursos\\dotnet-6\\api\\api.csproj",
+      "projectPath": "C:\\cursos\\dotnet-6\\net-core\\api\\api.csproj",
       "packagesPath": "C:\\Users\\antonio.dos.santos\\.nuget\\packages\\",
-      "outputPath": "C:\\cursos\\dotnet-6\\api\\obj\\",
+      "outputPath": "C:\\cursos\\dotnet-6\\net-core\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\antonio.dos.santos\\AppData\\Roaming\\NuGet\\NuGet.Config"

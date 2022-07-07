@@ -13,25 +13,25 @@ app.MapGet("/AddHeader",(HttpResponse response) => {
 }
 );
 
-app.MapPost("/salvarproduto",(Produto produto) => {
+app.MapPost("/produto",(Produto produto) => {
     ProdutoRepositorio.add(produto);
 });
 
-app.MapPut("/atualizarproduto",(Produto produto) => {
+app.MapPut("/produto",(Produto produto) => {
     var p = ProdutoRepositorio.GetBy(produto.Codigo);
     p.Nome = produto.Nome;
 });
 
-app.MapDelete("/apagarproduto/{codigo}",([FromRoute] string codigo) => {
+app.MapDelete("/produto/{codigo}",([FromRoute] string codigo) => {
     var registro = ProdutoRepositorio.GetBy(codigo);
     ProdutoRepositorio.Remover(registro);
 });
 
-app.MapGet("/getproduto",([FromQuery] string dataInicial, [FromQuery] string dataFinal) => {
+app.MapGet("/produto",([FromQuery] string dataInicial, [FromQuery] string dataFinal) => {
     return dataInicial + " - " + dataFinal;
 });
 
-app.MapGet("/getproduto/{codigo}",([FromRoute] string codigo) => {
+app.MapGet("/produto/{codigo}",([FromRoute] string codigo) => {
     var registro = ProdutoRepositorio.GetBy(codigo);
     return registro;
 });
@@ -40,9 +40,7 @@ app.MapGet("/getprodutoheader",(HttpRequest request) => {
     return request.Headers["produto-codigo"].ToString();
 });
 
-
 app.Run();
-
 
 public static class ProdutoRepositorio{
     public static List<Produto> ListaProdutos {get;set;}
@@ -61,6 +59,7 @@ public static class ProdutoRepositorio{
         ListaProdutos.Remove(produto);
     }
 }
+
 public class Produto {
     public string Codigo { get; set; }
     public string Nome { get; set; }
