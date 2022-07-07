@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3uc+RgTbe5D95w+FCIV9H/7OI6g0+GnOc74nKtqya6eYT9XdtikhvNxgVFPE2whC1dAy6My2lTLvuAFLPBpY6g==",
+  "dgSpecHash": "cdme4HHH93zWQTs3+6NNH8l55R08GsnI/Uipt+0VVXTpuiGtzG+jVMHpZDB5iBmBK9Iio34PCaZ7s/+uF2jb9Q==",
   "success": true,
-  "projectFilePath": "C:\\cursos\\dotnet-6\\api\\api.csproj",
+  "projectFilePath": "C:\\cursos\\dotnet-6\\net-core\\api\\api.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
