@@ -1,0 +1,17 @@
+C:\cursos\dotnet-6\mycode\bin\Debug\net6.0\mycode.exe
+C:\cursos\dotnet-6\mycode\bin\Debug\net6.0\mycode.deps.json
+C:\cursos\dotnet-6\mycode\bin\Debug\net6.0\mycode.runtimeconfig.json
+C:\cursos\dotnet-6\mycode\bin\Debug\net6.0\mycode.dll
+C:\cursos\dotnet-6\mycode\bin\Debug\net6.0\mycode.pdb
+C:\cursos\dotnet-6\mycode\obj\Debug\net6.0\mycode.csproj.AssemblyReference.cache
+C:\cursos\dotnet-6\mycode\obj\Debug\net6.0\mycode.GeneratedMSBuildEditorConfig.editorconfig
+C:\cursos\dotnet-6\mycode\obj\Debug\net6.0\mycode.AssemblyInfoInputs.cache
+C:\cursos\dotnet-6\mycode\obj\Debug\net6.0\mycode.AssemblyInfo.cs
+C:\cursos\dotnet-6\mycode\obj\Debug\net6.0\mycode.csproj.CoreCompileInputs.cache
+C:\cursos\dotnet-6\mycode\obj\Debug\net6.0\mycode.dll
+C:\cursos\dotnet-6\mycode\obj\Debug\net6.0\refint\mycode.dll
+C:\cursos\dotnet-6\mycode\obj\Debug\net6.0\mycode.pdb
+C:\cursos\dotnet-6\mycode\obj\Debug\net6.0\mycode.genruntimeconfig.cache
+C:\cursos\dotnet-6\mycode\obj\Debug\net6.0\ref\mycode.dll
+C:\cursos\dotnet-6\mycode\bin\Debug\net6.0\FluentColorConsole.dll
+C:\cursos\dotnet-6\mycode\obj\Debug\net6.0\mycode.csproj.CopyComplete
