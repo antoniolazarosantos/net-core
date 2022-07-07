@@ -15,16 +15,19 @@ app.MapGet("/AddHeader",(HttpResponse response) => {
 
 app.MapPost("/produto",(Produto produto) => {
     ProdutoRepositorio.add(produto);
+    return Results.Created($"/produto/{produto.Codigo}",produto.Codigo);
 });
 
 app.MapPut("/produto",(Produto produto) => {
     var p = ProdutoRepositorio.GetBy(produto.Codigo);
     p.Nome = produto.Nome;
+    return Results.Ok();
 });
 
 app.MapDelete("/produto/{codigo}",([FromRoute] string codigo) => {
     var registro = ProdutoRepositorio.GetBy(codigo);
     ProdutoRepositorio.Remover(registro);
+    return Results.Ok();
 });
 
 app.MapGet("/produto",([FromQuery] string dataInicial, [FromQuery] string dataFinal) => {
@@ -33,7 +36,10 @@ app.MapGet("/produto",([FromQuery] string dataInicial, [FromQuery] string dataFi
 
 app.MapGet("/produto/{codigo}",([FromRoute] string codigo) => {
     var registro = ProdutoRepositorio.GetBy(codigo);
-    return registro;
+    if (registro != null){
+      return Results.Ok(registro);
+    }
+    return Results.NotFound();
 });
 
 app.MapGet("/getprodutoheader",(HttpRequest request) => {
