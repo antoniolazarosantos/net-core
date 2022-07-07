@@ -40,9 +40,7 @@ app.MapGet("/getprodutoheader",(HttpRequest request) => {
     return request.Headers["produto-codigo"].ToString();
 });
 
-
 app.Run();
-
 
 public static class ProdutoRepositorio{
     public static List<Produto> ListaProdutos {get;set;}
