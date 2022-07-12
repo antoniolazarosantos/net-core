@@ -46,6 +46,7 @@ app.MapGet("/getprodutoheader",(HttpRequest request) => {
     return request.Headers["produto-codigo"].ToString();
 });
 
+if(app.Environment.IsStaging())
 app.MapGet("/configuracao/database",(IConfiguration configuracao) => {
  return Results.Ok($"{configuracao["Database:Connection"]}:{configuracao["Database:Porta"]}");
 });

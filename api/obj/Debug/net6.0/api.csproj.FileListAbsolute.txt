@@ -40,3 +40,4 @@ C:\cursos\dotnet-6\net-core\api\obj\Debug\net6.0\refint\api.dll
 C:\cursos\dotnet-6\net-core\api\obj\Debug\net6.0\api.pdb
 C:\cursos\dotnet-6\net-core\api\obj\Debug\net6.0\api.genruntimeconfig.cache
 C:\cursos\dotnet-6\net-core\api\obj\Debug\net6.0\ref\api.dll
+C:\cursos\dotnet-6\net-core\api\bin\Debug\net6.0\appsettings.Staging.json
