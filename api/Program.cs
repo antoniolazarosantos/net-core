@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ApplicationDbContext>();
+
 var app = builder.Build();
 
 app.MapGet("/", () => "Alô Mundão!");
@@ -82,7 +86,41 @@ public static class ProdutoRepositorio{
     }
 }
 
+public class Tag {
+    public int Id { get; set; }
+    public string Nome { get; set; }
+
+    public int ProdutoId {get; set;}
+}
+public class Categoria{
+    public int Id { get; set; }
+    public  string Nome { get; set; }
+}
 public class Produto {
+
+    public int Id { get; set; }
     public string Codigo { get; set; }
     public string Nome { get; set; }
+    public string Descricao { get; set; }
+
+    public int CategoriaId { get; set; }
+    public  Categoria Categoria { get; set; }
+
+    public List<Tag> Tags { get; set;}
+}
+
+public class ApplicationDbContext : DbContext{
+    
+    public DbSet<Produto> Produtos {get; set;}
+
+    protected override void  OnModelCreating(ModelBuilder builder){
+        //FluentAPI
+        builder.Entity<Produto>().Property(p => p.Descricao).HasMaxLength(500).IsRequired(false);
+        builder.Entity<Produto>().Property(p => p.Nome).HasMaxLength(120).IsRequired();
+        builder.Entity<Produto>().Property(p => p.Codigo).HasMaxLength(20).IsRequired();
+        builder.Entity<Categoria>().Property(p => p.Nome).HasMaxLength(20).IsRequired();
+         builder.Entity<Tag>().Property(p => p.Nome).HasMaxLength(20).IsRequired();
+    }
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    => options.UseSqlServer("Server=localhost;Database=BDProduto;User Id=sa;Password=@Sql2019;MultipleActiveResultSets=true;Encrypt=YES;TrustServerCertificate=YES");
 }
