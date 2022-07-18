@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddSqlServer<ApplicationDbContext>(builder.Configuration["Database:SqlServer"]);
 
 var app = builder.Build();
 
@@ -17,9 +16,23 @@ app.MapGet("/AddHeader",(HttpResponse response) => {
 }
 );
 
-app.MapPost("/produto",(Produto produto) => {
-    ProdutoRepositorio.add(produto);
-    return Results.Created($"/produto/{produto.Codigo}",produto.Codigo);
+app.MapPost("/produto",(ProdutoRequest produtoRequest, ApplicationDbContext contexto) => {
+    var cat = contexto.Categorias.Where(a => a.Id == produtoRequest.CategoriaId).First();
+    var prod = new Produto{
+        Codigo = produtoRequest.Codigo,
+        Nome = produtoRequest.Nome,
+        Descricao = produtoRequest.Descricao,
+        Categoria = cat
+    };
+    if(produtoRequest.Tags != null){
+        prod.Tags = new List<Tag>();
+        foreach(var item in produtoRequest.Tags){
+            prod.Tags.Add(new Tag{Nome = item});
+        }
+    }
+    contexto.Produtos.Add(prod);
+    contexto.SaveChanges();
+    return Results.Created($"/produto/{prod.Id}",prod.Id);
 });
 
 app.MapPut("/produto",(Produto produto) => {
@@ -59,68 +72,3 @@ var c = app.Configuration;
 ProdutoRepositorio.Init(c);
 
 app.Run();
-
-
-
-public static class ProdutoRepositorio{
-    public static List<Produto> ListaProdutos {get;set;} =  ListaProdutos = new List<Produto>();
-
-    public static void Init(IConfiguration conf){
-        var lista = conf.GetSection("Carga_de_Produtos").Get<List<Produto>>();
-        ListaProdutos = lista;
-
-    }
-    public static void add(Produto p) {
-        if (ListaProdutos == null) {
-            ListaProdutos = new List<Produto>();
-        }
-        ListaProdutos.Add(p);
-    }
-
-    public static Produto GetBy(string codigo){
-        return ListaProdutos.FirstOrDefault(x => x.Codigo == codigo);
-    }
-
-    public static void Remover(Produto produto){
-        ListaProdutos.Remove(produto);
-    }
-}
-
-public class Tag {
-    public int Id { get; set; }
-    public string Nome { get; set; }
-
-    public int ProdutoId {get; set;}
-}
-public class Categoria{
-    public int Id { get; set; }
-    public  string Nome { get; set; }
-}
-public class Produto {
-
-    public int Id { get; set; }
-    public string Codigo { get; set; }
-    public string Nome { get; set; }
-    public string Descricao { get; set; }
-
-    public int CategoriaId { get; set; }
-    public  Categoria Categoria { get; set; }
-
-    public List<Tag> Tags { get; set;}
-}
-
-public class ApplicationDbContext : DbContext{
-    
-    public DbSet<Produto> Produtos {get; set;}
-
-    protected override void  OnModelCreating(ModelBuilder builder){
-        //FluentAPI
-        builder.Entity<Produto>().Property(p => p.Descricao).HasMaxLength(500).IsRequired(false);
-        builder.Entity<Produto>().Property(p => p.Nome).HasMaxLength(120).IsRequired();
-        builder.Entity<Produto>().Property(p => p.Codigo).HasMaxLength(20).IsRequired();
-        builder.Entity<Categoria>().Property(p => p.Nome).HasMaxLength(20).IsRequired();
-         builder.Entity<Tag>().Property(p => p.Nome).HasMaxLength(20).IsRequired();
-    }
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-    => options.UseSqlServer("Server=localhost;Database=BDProduto;User Id=sa;Password=@Sql2019;MultipleActiveResultSets=true;Encrypt=YES;TrustServerCertificate=YES");
-}
