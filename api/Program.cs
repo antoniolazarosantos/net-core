@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,26 +25,34 @@ app.MapPost("/produto",(ProdutoRequest produtoRequest, ApplicationDbContext cont
         Descricao = produtoRequest.Descricao,
         Categoria = cat
     };
-    if(produtoRequest.Tags != null){
-        prod.Tags = new List<Tag>();
-        foreach(var item in produtoRequest.Tags){
-            prod.Tags.Add(new Tag{Nome = item});
-        }
-    }
     contexto.Produtos.Add(prod);
     contexto.SaveChanges();
     return Results.Created($"/produto/{prod.Id}",prod.Id);
 });
 
-app.MapPut("/produto",(Produto produto) => {
-    var p = ProdutoRepositorio.GetBy(produto.Codigo);
-    p.Nome = produto.Nome;
+app.MapPut("/produto/{id}",([FromRoute] int id,ProdutoRequest produtoRequest,ApplicationDbContext contexto) => {
+    var registro = contexto.Produtos
+    .Include(p => p.Tags)
+    .Where(p => p.Id == id).First();
+    var cat = contexto.Categorias.Where(a => a.Id == produtoRequest.CategoriaId).First();
+    registro.Codigo = produtoRequest.Codigo;
+    registro.Nome = produtoRequest.Nome;
+    registro.Descricao = produtoRequest.Descricao;
+    registro.Categoria = cat;
+    if(produtoRequest.Tags != null){
+        registro.Tags = new List<Tag>();
+        foreach(var item in produtoRequest.Tags){
+            registro.Tags.Add(new Tag{Nome = item});
+        }
+    }
+    contexto.SaveChanges();
     return Results.Ok();
 });
 
-app.MapDelete("/produto/{codigo}",([FromRoute] string codigo) => {
-    var registro = ProdutoRepositorio.GetBy(codigo);
-    ProdutoRepositorio.Remover(registro);
+app.MapDelete("/produto/{id}",([FromRoute] int id,ApplicationDbContext contexto) => {
+    var registro = contexto.Produtos.Where(p => p.Id == id).First();
+    contexto.Remove(registro);
+    contexto.SaveChanges();
     return Results.Ok();
 });
 
@@ -51,8 +60,11 @@ app.MapGet("/produto",([FromQuery] string dataInicial, [FromQuery] string dataFi
     return dataInicial + " - " + dataFinal;
 });
 
-app.MapGet("/produto/{codigo}",([FromRoute] string codigo) => {
-    var registro = ProdutoRepositorio.GetBy(codigo);
+app.MapGet("/produto/{id}",([FromRoute] int id,ApplicationDbContext contexto) => {
+    var registro = contexto.Produtos
+    .Include(p => p.Categoria)
+    .Include(p => p.Tags)
+    .Where(p => p.Id == id).First();
     if (registro != null){
       return Results.Ok(registro);
     }
