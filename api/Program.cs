@@ -7,7 +7,7 @@ builder.Services.AddSqlServer<ApplicationDbContext>(builder.Configuration["Datab
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Alô Mundão!");
+app.MapGet("/", () => "Serviço rodando.");
 
 app.MapPost("/user", () => new{Nome = "Antônio Lázaro" , Idade = 45} );
 
